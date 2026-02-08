@@ -1,0 +1,28 @@
+name: Build Photoflow for Mac
+on: [push]
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # Update ke v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5 # Update ke v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+
+      - name: Build with PyInstaller
+        run: |
+          python -m PyInstaller --noconsole --onefile Photoflow.py
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4 # INI YANG PENTING: Ganti v3 ke v4
+        with:
+          name: Photoflow-MacOS
+          path: dist/Photoflow
